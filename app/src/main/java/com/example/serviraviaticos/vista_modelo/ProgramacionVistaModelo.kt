@@ -15,10 +15,27 @@ class ProgramacionVistaModelo : ViewModel() {
 
     private val _filtro = MutableStateFlow("")
     val filtro: StateFlow<String> = _filtro
+    private val _programacionSeleccionada = MutableStateFlow<ProgramacionModelo?>(null)
+    val programacionSeleccionada: StateFlow<ProgramacionModelo?> = _programacionSeleccionada
 
     init {
         listarProgramaciones()
     }
+    fun seleccionarPorScoop(scoop: String) {
+        viewModelScope.launch {
+            val encontrada = _programaciones.value.find { it.scoop == scoop }
+            if (encontrada != null) {
+                println("Programación encontrada en memoria: $encontrada")
+                _programacionSeleccionada.value = encontrada
+            } else {
+                val todas = ProgramacionRepositorio.obtenerProgramaciones()
+                val encontradaRemota = todas.find { it.scoop == scoop }
+                println("Programación encontrada desde API: $encontradaRemota")
+                _programacionSeleccionada.value = encontradaRemota
+            }
+        }
+    }
+
 
     fun actualizarFiltro(nuevoFiltro: String) {
         _filtro.value = nuevoFiltro

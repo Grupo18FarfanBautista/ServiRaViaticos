@@ -31,20 +31,26 @@ import android.os.Build
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import android.view.Window
+import androidx.activity.viewModels
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import com.example.serviraviaticos.vista_modelo.ProgramacionVistaModelo
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val vm: ProgramacionVistaModelo by viewModels() // IMPORTANTE
+
+
         setContent {
 
             ServiRaViaticosTheme {
                 val navController = rememberNavController()
+                GrafoNavegacion(navController, vm)
                 val rutaActual = navController.currentBackStackEntryFlow.collectAsState(initial = null).value?.destination?.route
 
                 val items = listOf(
@@ -71,7 +77,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { padding ->
                     Box(modifier = Modifier.padding(padding)) {
-                        GrafoNavegacion(navController)
+                        GrafoNavegacion(navController,vm)
                     }
                 }
             }

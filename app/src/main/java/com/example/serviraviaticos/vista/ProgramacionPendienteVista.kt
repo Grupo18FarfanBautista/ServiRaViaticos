@@ -1,6 +1,5 @@
 package com.example.serviraviaticos.vista
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,12 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.serviraviaticos.componentes.FiltroEstadoDropdown
 import com.example.serviraviaticos.componentes.ProgramacionCard
 import com.example.serviraviaticos.vista_modelo.ProgramacionVistaModelo
 @Composable
-fun ProgramacionPendienteVista() {
-    val vm: ProgramacionVistaModelo = viewModel()
+fun ProgramacionPendienteVista(
+    navController: NavController,
+    vm: ProgramacionVistaModelo
+) {
     val programaciones by vm.programaciones.collectAsState()
     val filtro by vm.filtro.collectAsState()
 
@@ -38,7 +40,6 @@ fun ProgramacionPendienteVista() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         )
-
 
         // 🔵 Etiqueta + Dropdown alineados
         Row(
@@ -67,7 +68,10 @@ fun ProgramacionPendienteVista() {
                 filtro == "Todos" || filtro.isEmpty() || it.estadoViatico == filtro
             }
             items(filtradas) { programacion ->
-                ProgramacionCard(programacion)
+                ProgramacionCard(programacion = programacion) {
+                    vm.seleccionarPorScoop(programacion.scoop)
+                    navController.navigate("detalle")
+                }
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
     // Compose BOM - Mantenemos este para simplificar las versiones
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))

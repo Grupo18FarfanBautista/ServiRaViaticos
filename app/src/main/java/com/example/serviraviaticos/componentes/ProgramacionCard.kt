@@ -23,7 +23,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import com.example.serviraviaticos.R
 @Composable
-fun ProgramacionCard(programacion: ProgramacionModelo) {
+fun ProgramacionCard(programacion: ProgramacionModelo,
+                     onClick: () -> Unit
+) {
+
     // Color del estado
     val estadoColor = when (programacion.estadoViatico.uppercase()) {
         "PENDIENTE" -> Color(0xFFFFC107) // Amarillo
@@ -54,6 +57,7 @@ fun ProgramacionCard(programacion: ProgramacionModelo) {
         Card(
             modifier = Modifier
                 .weight(1f)
+                .clickable { onClick() }
                 .padding(start = 0.dp), // evitar separación con el borde lateral
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White),
